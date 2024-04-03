@@ -11,9 +11,105 @@
 <!-- this tells jinja that we are using a template -->
 {% block content %}
 <!-- this piece of code tells jinja where to put the html for this page in the parent template -->
-<h1 class="float-start">Messages</h1>
+<!-- <h1 class="float-start">Messages</h1> -->
 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Level</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            margin-left: 40%;
+            
+        }
 
-   </script>
+        .level {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 200px;
+            height: 50px;
+            background-color: gray; /* Default background color */
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-size: x-large;
+            text-align: center;
+            color: aliceblue;
+            position: relative;
+            padding: 0 10px;
+        }
+
+        .lock,
+        .unlock {
+            width: 30px;
+            height: 30px;
+            background-size: cover;
+            border: 20%;
+            position: absolute;
+            right: 10px;
+            margin: 20px;
+        }
+
+        .lock {
+            background-image: url('/images/lock.png'); 
+        }
+
+        .unlock {
+            background-image: url('/images/unlock.png');
+        }
+
+        /* Change background color to gray for unlocked levels */
+        .unlocked {
+            background-color: black;
+        }
+
+        .level:hover {
+            background-color: #0dcaf0;
+        }
+    </style>
+</head>
+<body>
+   <div class="level unlocked" onclick="selectLevel(0)"> 
+      Level 0
+      <div class="unlock"></div>
+  </div>
+   <div class="level locked" onclick="selectLevel(1)">
+      Level 1
+      <div class="lock"></div>
+  </div> 
+   <div class="level locked" onclick="selectLevel(2)">
+        Level 2
+        <div class="lock"></div>
+    </div>
+    
+    
+
+    <script>
+      function selectLevel(level) {
+         var levelElement = document.querySelector('.level:nth-child(' + (level+3) + ')'); // why level+3?
+         if (levelElement.classList.contains('unlocked')) {
+            alert("Selected level: " + level);
+         } else {
+            alert("Level " + level + " is locked.");
+         }
+      }
+
+        // Example of locking levels 1 and 2
+        document.querySelectorAll('.lock').forEach((lock, index) => {
+            if (index > 0) {
+                lock.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
+
 
     {% endblock content %}
+    
