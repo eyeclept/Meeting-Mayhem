@@ -1099,3 +1099,6 @@ def Generate_Log():
         worksheet.write(row, 7, str(current_game.end_result))
         workbook.close()
 
+@app.route('/level0')
+def level0():
+    return render_template('level0.html', title='Level 0')

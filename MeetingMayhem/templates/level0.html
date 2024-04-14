@@ -1,0 +1,83 @@
+
+
+{% import 'messages.j2' as messages %}
+{% extends "layout.html" %} 
+<!-- this tells jinja that we are using a template -->
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Level 0</title>
+</head>
+<body>
+    
+    <a href="multilevelmessages">Go back to Level Select</a>
+
+    <!-- Tab buttons -->
+    <div class="tab">
+        <button class="tablinks" name="user2" onclick="openUser(event, 'user2')">User2</button>
+        <button class="tablinks" name="user3" onclick="openUser(event, 'user3')">User3</button>
+    </div>
+
+    <!-- Tab content -->
+    {% for name in ['user2', 'user3'] %}
+        {% set form = forms[name] %}
+        <div id="{{ name }}" class="tabcontent">
+            <!-- Display messages between the two users -->
+            <div class="chatbox">
+                {% for message in messages_between_users[name] %}
+                    <!-- Display message content here -->
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+
+    <script>
+        // Add an event listener to simulate a click on the first tab when the page loads
+        window.addEventListener('load', function () {
+           var activeTab = sessionStorage.getItem('activeTab');
+           if (activeTab) {
+              var selector = '[name="' + activeTab + '"]';
+              var selection = document.querySelector(selector);
+              if (selection){
+                 selection.click();
+              } else {
+                 document.querySelector(".tablinks:first-child").click();
+              }   
+           } else {
+              document.querySelector(".tablinks:first-child").click();
+           }
+        });
+     
+        function openUser(evt, user) {
+           // Declare variables
+           var i, tabcontent, tablinks;
+     
+           // Get all elements with class="tabcontent" and hide them
+           tabcontent = document.getElementsByClassName("tabcontent");
+           for (i = 0; i < tabcontent.length; i++) {
+              tabcontent[i].style.display = "none";
+           }
+     
+           // Get all elements with class="tablinks" and remove the class "active"
+           tablinks = document.getElementsByClassName("tablinks");
+           for (i = 0; i < tablinks.length; i++) {
+              tablinks[i].className = tablinks[i].className.replace(" active", "");
+           }
+     
+           // Show the current tab and add an "active" class to the button that opened the tab
+           document.getElementById(user).style.display = "block";
+           evt.currentTarget.className += " active";
+           // Save the active tab in sessionStorage
+           sessionStorage.setItem('activeTab', user);
+        }
+     </script>
+     
+
+
+</body>
+</html>
+
+{% endblock content %}
